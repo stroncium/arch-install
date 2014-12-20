@@ -1,4 +1,7 @@
 #!/bin/sh
+REPO_URL="https://raw.githubusercontent.com/stroncium/arch-install/master/"
+SCRIPT_CHROOT="vb-my-chroot.sh"
+
 ntpdate time1.google.com
  
 # partitions
@@ -21,7 +24,7 @@ mount /dev/sda4 $ARCH_ROOT
 mkdir $ARCH_ROOT/boot
 mount /dev/sda1 $ARCH_ROOT/boot
  
-pacstrap $ARCH_ROOT base base-devel grub openssh sudo wget postfix
+pacstrap $ARCH_ROOT base base-devel grub sudo wget postfix net-tools
  
 # fstab
 genfstab -p $ARCH_ROOT >> $ARCH_ROOT/etc/fstab
@@ -35,10 +38,8 @@ mount -o bind /proc $ARCH_ROOT/proc
 mount -o bind /run $ARCH_ROOT/run
 mount -o bind /sys $ARCH_ROOT/sys
 
-SCRIPT_CHROOT_URL= 
-SCRIPT_CHROOT=vb-my-chroot.sh
 cd $ARCH_ROOT
-wget -q $SCRIPT_CHROOT_URL -O $SCRIPT_CHROOT
+wget -q $REPO_URL/$SCRIPT_CHROOT -O $SCRIPT_CHROOT
 chroot $ARCH_ROOT /bin/sh $SCRIPT_CHROOT
 rm $SCRIPT_CHROOT 
 umount $ARCH_ROOT/{boot,dev,proc,run,sys,}
