@@ -30,7 +30,7 @@ mount /dev/sda1 $ARCH_ROOT/boot
 
 STEP PACSTRAP
 #pacstrap $ARCH_ROOT base base-devel grub sudo wget postfix net-tools
-pacstrap $ARCH_ROOT base grub wget net-tools
+pacstrap $ARCH_ROOT base grub wget net-tools zsh
  
 STEP MAKING FSTAB
 genfstab -p $ARCH_ROOT >> $ARCH_ROOT/etc/fstab
