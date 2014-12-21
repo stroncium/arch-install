@@ -5,7 +5,7 @@ SCRIPT_CHROOT="vb-my-chroot.sh"
 ARCH=i686
 ARCH_ROOT=/mnt
 WM_PACKAGES=ttf-dejavu lxde upower
-MISC_PACKAGES=alsa-utils
+MISC_PACKAGES=alsa-utils yajl
 VB_PACKAGES=virtualbox-guest-utils virtualbox-guest-modules
 
 function STEP(){
