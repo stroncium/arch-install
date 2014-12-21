@@ -24,7 +24,7 @@ DELIM
 ln -s /dev/null /etc/udev/rules.d/80-net-setup-link.rules
  
 # locale
-echo LANG=$ARCH_LOCALE' > /etc/locale.conf
+echo LANG=$ARCH_LOCALE > /etc/locale.conf
 sed -i -e /^#$ARCH_LOCALE/s/#// /etc/locale.gen
 locale-gen
 
@@ -51,26 +51,5 @@ sed -i \
 grub-mkconfig -o /boot/grub/grub.cfg
 grub-install /dev/sda
  
-# services
-# netctl@eth0
-cat > /etc/systemd/system/netctl\@eth0.service <<DELIM
-.include /usr/lib/systemd/system/netctl@.service
-
-[Unit]
-Description=A basic static ethernet connection
-BindsTo=sys-subsystem-net-devices-eth0.device
-After=sys-subsystem-net-devices-eth0.device
-DELIM
-
-SYSD=/etc/systemd/system/multi-user.target.wants
-
-ln -s '/etc/systemd/system/netctl@eth0.service' "$SYSD/netctl@eth0.service"
-# sshd 
-#ln -s '/usr/lib/systemd/system/sshd.service' "$SYSD/sshd.service"
-# cronie
-#ln -s '/usr/lib/systemd/system/cronie.service' "$SYSD/cronie.service"
-# postfix
-#newaliases # for local users
-#ln -s '/usr/lib/systemd/system/postfix.service' "$SYSD/postfix.service"
 /bin/bash
 exit
