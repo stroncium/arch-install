@@ -64,6 +64,9 @@ useradd -m -G users,wheel -s /bin/bash $ARCH_USER
 STEP $ARCH_USER password set to $ARCH_USER
 echo -e "$ARCH_USER\n$ARCH_USER" | passwd $ARCH_USER
 
+STEP ADDING $ARCH_USER TO sudoers.d
+echo "$ARCH_USER ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/$ARCH_USER
+
 STEP GRUB
 sed -i \
   -e '/^#GRUB_DISABLE_LINUX_UUID/s/#//' \
