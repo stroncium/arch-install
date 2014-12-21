@@ -43,4 +43,5 @@ wget -q $REPO_URL/$SCRIPT_CHROOT -O $SCRIPT_CHROOT
 chroot $ARCH_ROOT /bin/sh $SCRIPT_CHROOT
 rm $SCRIPT_CHROOT 
 umount $ARCH_ROOT/{boot,dev,proc,run,sys,}
+/bin/bash
 shutdown -r now
