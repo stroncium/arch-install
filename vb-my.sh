@@ -9,8 +9,8 @@ function STEP(){
  echo === $@
 }
 
-STEP SETTING TIME
-ntpdate time1.google.com
+#STEP SETTING TIME
+#ntpdate time1.google.com
  
 STEP PARTITIONING
 sgdisk -o \
@@ -35,11 +35,11 @@ pacstrap $ARCH_ROOT base grub wget net-tools
 STEP MAKING FSTAB
 genfstab -p $ARCH_ROOT >> $ARCH_ROOT/etc/fstab
 
-#STEP ADDITIONAL MOUNTING
-#mount -o bind /dev $ARCH_ROOT/dev
-#mount -o bind /proc $ARCH_ROOT/proc
-#mount -o bind /run $ARCH_ROOT/run
-#mount -o bind /sys $ARCH_ROOT/sys
+STEP ADDITIONAL MOUNTING
+mount -o bind /dev $ARCH_ROOT/dev
+mount -o bind /proc $ARCH_ROOT/proc
+mount -o bind /run $ARCH_ROOT/run
+mount -o bind /sys $ARCH_ROOT/sys
 
 STEP COPYING resolv.conf 
 mv $ARCH_ROOT/etc/resolv.conf{,.save}
@@ -53,10 +53,10 @@ STEP CHROOT
 chroot $ARCH_ROOT /bin/sh $SCRIPT_CHROOT
 
 STEP REMOVING CHROOT SCRIPT
-rm $SCRIPT_CHROOT 
+rm $ARCH_ROOT/$SCRIPT_CHROOT
 
-#STEP ADDITIONAL UMOUNTING
-#umount $ARCH_ROOT/{dev,proc,run,sys}
+STEP ADDITIONAL UMOUNTING
+umount $ARCH_ROOT/{dev,proc,run,sys}
 
 STEP UMOUNTING
 umount $ARCH_ROOT/boot $ARCH_ROOT
