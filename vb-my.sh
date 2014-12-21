@@ -4,6 +4,7 @@ SCRIPT_CHROOT="vb-my-chroot.sh"
 #ARCH=x86_64
 ARCH=i686
 ARCH_ROOT=/mnt
+VB_PACKAGES=virtualbox-guest-utils virtualbox-guest-modules
 
 function STEP(){
  echo === $@
