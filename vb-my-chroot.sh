@@ -37,12 +37,19 @@ locale-gen
 
 source /etc/profile
  
-STEP MODEPROBE for VirtualBox
-cat > /etc/modprobe.d/virtualbox.conf <<DELIM
+STEP MODPROBE for VirtualBox
+cat > /etc/modprobe.d/virtualbox.conf <<EOF
 blacklist i2c_piix4
 blacklist lpc_ich
-DELIM
- 
+EOF
+
+STEP modules for VirtualBox
+cat > /etc/modules-load.d/virtualbox.conf <<EOF
+vboxguest
+vboxsf
+vboxvideo
+EOF
+
 STEP mkinitcpio
 sed -i '/#COMPRESSION="xz"/s/^#//' /etc/mkinitcpio.conf
 mkinitcpio -p linux
@@ -65,6 +72,9 @@ sed -i \
   /etc/default/grub
 grub-mkconfig -o /boot/grub/grub.cfg
 grub-install /dev/sda
+
+STEP ENABLING vboxservice
+systemctl enable vboxservice
 
 STEP RUNNING BASH, exit to continue
 /bin/bash 
