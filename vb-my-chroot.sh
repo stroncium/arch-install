@@ -1,16 +1,23 @@
 #!/bin/sh
-
 ARCH_TZ="Europe/Moscow"
 ARCH_HN="stronzi-razer-vb"
 ARCH_LOCALE="en_US.UTF-8"
+ARCH_USER="stronzi"
 
+function STEP(){
+ echo === === $@
+}
+
+STEP TIMEZONE
 echo $ARCH_TZ > /etc/timezone
 ln -sf /usr/share/zoneinfo/$ARCH_TZ /etc/localtime
+
+STEP CLOCK SYNC
 hwclock --systohc --localtime
- 
+
+STEP HOSTNAME
 echo $ARCH_HN > /etc/hostname
-#sed -i '6,7s/$/\tarch/' /etc/hosts
- 
+
 #cat > /etc/netctl/eth0 <<DELIM
 #Description='A basic static ethernet connection'
 #Interface=eth0
@@ -23,33 +30,42 @@ echo $ARCH_HN > /etc/hostname
 # workaround for eth0 renaming
 #ln -s /dev/null /etc/udev/rules.d/80-net-setup-link.rules
  
-# locale
+STEP LOCALE
 echo LANG=$ARCH_LOCALE > /etc/locale.conf
 sed -i -e /^#$ARCH_LOCALE/s/#// /etc/locale.gen
 locale-gen
 
 source /etc/profile
  
-# modprobe
+STEP MODEPROBE for VirtualBox
 cat > /etc/modprobe.d/virtualbox.conf <<DELIM
 blacklist i2c_piix4
 blacklist lpc_ich
 DELIM
  
-# mkinitcpio
+STEP mkinitcpio
 sed -i '/#COMPRESSION="xz"/s/^#//' /etc/mkinitcpio.conf
 mkinitcpio -p linux
- 
-useradd -m -G users,wheel -s /bin/bash stronzi
 
-# grub
+STEP USER $ARCH_USER
+useradd -m -G users,wheel -s /bin/bash $ARCH_USER
+
+STEP root password set to root
+echo "root" | passwd --stdin root
+
+STEP $ARCH_USER password set to $ARCH_USER
+echo $ARCH_USER | passwd --stdin $ARCH_USER
+
+STEP GRUB
 sed -i \
--e '/^#GRUB_DISABLE_LINUX_UUID/s/#//' \
--e '/^#GRUB_COLOR/s/#//' \
--e '/GRUB_CMDLINE_LINUX/s/""/"ipv6.disable=1"/' \
-/etc/default/grub
+  -e '/^#GRUB_DISABLE_LINUX_UUID/s/#//' \
+  -e '/^#GRUB_COLOR/s/#//' \
+  -e '/^GRUB_CMDLINE_LINUX/s/""/"ipv6.disable=1"/' \
+  -e '/^GRUB_TIMEOUT/s/=.*$/=1/'
+  /etc/default/grub
 grub-mkconfig -o /boot/grub/grub.cfg
 grub-install /dev/sda
- 
-/bin/bash
+
+STEP RUNNING BASH, exit to continue
+/bin/bash 
 exit
