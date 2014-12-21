@@ -1,10 +1,12 @@
 #!/bin/sh
 REPO_URL="https://raw.githubusercontent.com/stroncium/arch-install/master/"
 SCRIPT_CHROOT="vb-my-chroot.sh"
+#ARCH=x86_64
+ARCH=i686
+ARCH_ROOT=/mnt
 
 function STEP(){
  echo === $@
- echo ============================================
 }
 
 STEP SETTING TIME
@@ -21,10 +23,6 @@ STEP PERPARING FILESYSTEMS
 mkfs.ext4 -L boot /dev/sda1 >/dev/null 2>&1
 mkfs.ext4 -L root /dev/sda3 >/dev/null 2>&1
 
-#ARCH=x86_64
-ARCH=i686
-ARCH_ROOT=/mnt
-
 STEP MOUNTING 
 mount /dev/sda3 $ARCH_ROOT
 mkdir $ARCH_ROOT/boot
@@ -37,11 +35,11 @@ pacstrap $ARCH_ROOT base grub wget net-tools
 STEP MAKING FSTAB
 genfstab -p $ARCH_ROOT >> $ARCH_ROOT/etc/fstab
 
-STEP ADDITIONAL MOUNTING
-mount -o bind /dev $ARCH_ROOT/dev
-mount -o bind /proc $ARCH_ROOT/proc
-mount -o bind /run $ARCH_ROOT/run
-mount -o bind /sys $ARCH_ROOT/sys
+#STEP ADDITIONAL MOUNTING
+#mount -o bind /dev $ARCH_ROOT/dev
+#mount -o bind /proc $ARCH_ROOT/proc
+#mount -o bind /run $ARCH_ROOT/run
+#mount -o bind /sys $ARCH_ROOT/sys
 
 STEP COPYING resolv.conf 
 mv $ARCH_ROOT/etc/resolv.conf{,.save}
@@ -57,8 +55,12 @@ chroot $ARCH_ROOT /bin/sh $SCRIPT_CHROOT
 STEP REMOVING CHROOT SCRIPT
 rm $SCRIPT_CHROOT 
 
-STEP UNMOUNTING
-umount $ARCH_ROOT/{boot,dev,proc,run,sys,}
+#STEP ADDITIONAL UMOUNTING
+#umount $ARCH_ROOT/{dev,proc,run,sys}
+
+STEP UMOUNTING
+umount $ARCH_ROOT/boot $ARCH_ROOT
+
 
 STEP REBOOT
 echo shutdown -r now
