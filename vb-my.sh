@@ -19,9 +19,9 @@ sgdisk -o \
 -n 3:0:0 -c 3:root \
 /dev/sda
  
-STEP PERPARING FILESYSTEMS
-mkfs.ext4 -L boot /dev/sda1 >/dev/null 2>&1
-mkfs.ext4 -L root /dev/sda3 >/dev/null 2>&1
+STEP FORMATTING
+mkfs.ext4 -L boot /dev/sda1
+mkfs.ext4 -L root /dev/sda3
 
 STEP MOUNTING 
 mount /dev/sda3 $ARCH_ROOT
@@ -41,13 +41,12 @@ mount -o bind /proc $ARCH_ROOT/proc
 mount -o bind /run $ARCH_ROOT/run
 mount -o bind /sys $ARCH_ROOT/sys
 
-STEP COPYING resolv.conf 
-mv $ARCH_ROOT/etc/resolv.conf{,.save}
-cp /etc/resolv.conf $ARCH_ROOT/etc
+#STEP COPYING resolv.conf 
+#mv $ARCH_ROOT/etc/resolv.conf{,.save}
+#cp /etc/resolv.conf $ARCH_ROOT/etc
 
 STEP GETTING CHROOT SCRIPT
 wget -q $REPO_URL/$SCRIPT_CHROOT -O $ARCH_ROOT/$SCRIPT_CHROOT
-bash
 
 STEP CHROOT
 chroot $ARCH_ROOT /bin/sh $SCRIPT_CHROOT
