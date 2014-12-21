@@ -72,5 +72,5 @@ ln -s '/etc/systemd/system/netctl@eth0.service' "$SYSD/netctl@eth0.service"
 # postfix
 #newaliases # for local users
 #ln -s '/usr/lib/systemd/system/postfix.service' "$SYSD/postfix.service"
- 
+/bin/bash
 exit
