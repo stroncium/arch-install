@@ -26,8 +26,8 @@ ARCH=i686
 ARCH_ROOT=/mnt
 
 STEP MOUNTING 
-mkdir $ARCH_ROOT/boot
 mount /dev/sda3 $ARCH_ROOT
+mkdir $ARCH_ROOT/boot
 mount /dev/sda1 $ARCH_ROOT/boot
 
 STEP PACSTRAP
