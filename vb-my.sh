@@ -65,6 +65,6 @@ cd /
 STEP UNMOUNTING
 umount $ARCH_ROOT/{boot,dev,proc,run,sys,}
 
-/bin/bash
 STEP REBOOT
-shutdown -r now
+echo shutdown -r now
+#shutdown -r now
