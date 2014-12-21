@@ -4,6 +4,8 @@ SCRIPT_CHROOT="vb-my-chroot.sh"
 #ARCH=x86_64
 ARCH=i686
 ARCH_ROOT=/mnt
+WM_PACKAGES=ttf-dejavu lxde upower
+MISC_PACKAGES=alsa-utils
 VB_PACKAGES=virtualbox-guest-utils virtualbox-guest-modules
 
 function STEP(){
@@ -31,7 +33,7 @@ mount /dev/sda1 $ARCH_ROOT/boot
 
 STEP PACSTRAP
 #pacstrap $ARCH_ROOT base base-devel grub sudo wget postfix net-tools
-pacstrap $ARCH_ROOT base grub wget net-tools zsh sudo $VB_PACKAGES
+pacstrap $ARCH_ROOT base grub wget net-tools zsh sudo $VB_PACKAGES $WM_PACKAGES $MISC_PACKAGES
  
 STEP MAKING FSTAB
 genfstab -p $ARCH_ROOT >> $ARCH_ROOT/etc/fstab
