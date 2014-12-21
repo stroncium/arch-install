@@ -31,7 +31,7 @@ mkdir $ARCH_ROOT/boot
 mount /dev/sda1 $ARCH_ROOT/boot
 
 STEP PACSTRAP
-pacstrap $ARCH_ROOT base base-devel grub sudo wget postfix net-tools
+#pacstrap $ARCH_ROOT base base-devel grub sudo wget postfix net-tools
  
 STEP MAKING FSTAB
 genfstab -p $ARCH_ROOT >> $ARCH_ROOT/etc/fstab
@@ -51,7 +51,7 @@ cd $ARCH_ROOT
 
 STEP GETTING CHROOT SCRIPT
 wget -q $REPO_URL/$SCRIPT_CHROOT -O $SCRIPT_CHROOT
-
+bash
 STEP CHROOT
 chroot $ARCH_ROOT /bin/sh $SCRIPT_CHROOT
 
