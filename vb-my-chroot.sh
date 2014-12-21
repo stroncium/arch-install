@@ -58,11 +58,11 @@ mkinitcpio -p linux
 STEP USER $ARCH_USER
 useradd -m -G users,wheel -s /bin/bash $ARCH_USER
 
-STEP root password set to root
-echo "root" | passwd --stdin root
+#STEP root password set to root
+#echo -e "root\nroot" | passwd root
 
 STEP $ARCH_USER password set to $ARCH_USER
-echo $ARCH_USER | passwd --stdin $ARCH_USER
+echo -e "$ARCH_USER\n$ARCH_USER" | passwd $ARCH_USER
 
 STEP GRUB
 sed -i \
