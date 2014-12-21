@@ -11,7 +11,7 @@ STEP SETTING TIME
 ntpdate time1.google.com
  
 STEP PARTITIONING
-sgdisk -g \
+sgdisk -o \
 -n 1:2048:+512m -c 1:boot \
 -n 2:0:+32m -c 2:gpt -t 2:ef02 \
 -n 3:0:0 -c 3:root \
