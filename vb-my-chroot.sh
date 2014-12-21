@@ -8,29 +8,30 @@ function STEP(){
  echo === === $@
 }
 
-STEP TIMEZONE
+STEP TIMEZONE $ARCH_TZ
 echo $ARCH_TZ > /etc/timezone
 ln -sf /usr/share/zoneinfo/$ARCH_TZ /etc/localtime
 
 STEP CLOCK SYNC
 hwclock --systohc --localtime
 
-STEP HOSTNAME
+STEP HOSTNAME $ARCH_HN
 echo $ARCH_HN > /etc/hostname
 
-#cat > /etc/netctl/eth0 <<DELIM
-#Description='A basic static ethernet connection'
+#cat > /etc/netctl/eth0 <<EOF
+#Description='static ethernet'
 #Interface=eth0
 #Connection=ethernet
 #IP=static
 #Address=('10.0.2.15/24')
 #Gateway='10.0.2.2'
 #DNS=('8.8.8.8')
-#DELIM
-# workaround for eth0 renaming
-#ln -s /dev/null /etc/udev/rules.d/80-net-setup-link.rules
+#EOF
+
+STEP WORKAROUND FOR eth0 RENAMING
+ln -s /dev/null /etc/udev/rules.d/80-net-setup-link.rules
  
-STEP LOCALE
+STEP LOCALE $ARCH_LOCALE
 echo LANG=$ARCH_LOCALE > /etc/locale.conf
 sed -i -e /^#$ARCH_LOCALE/s/#// /etc/locale.gen
 locale-gen
@@ -51,7 +52,7 @@ vboxvideo
 EOF
 
 STEP mkinitcpio
-sed -i '/#COMPRESSION="xz"/s/^#//' /etc/mkinitcpio.conf
+#sed -i '/#COMPRESSION="xz"/s/^#//' /etc/mkinitcpio.conf
 mkinitcpio -p linux
 
 STEP USER $ARCH_USER
@@ -75,6 +76,9 @@ grub-install /dev/sda
 
 STEP ENABLING vboxservice
 systemctl enable vboxservice
+
+STEP ENABLING dhcpcd
+systemctl enable dhcpcd
 
 STEP RUNNING BASH, exit to continue
 /bin/bash 
