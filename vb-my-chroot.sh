@@ -11,17 +11,17 @@ hwclock --systohc --localtime
 echo $ARCH_HN > /etc/hostname
 #sed -i '6,7s/$/\tarch/' /etc/hosts
  
-cat > /etc/netctl/eth0 <<DELIM
-Description='A basic static ethernet connection'
-Interface=eth0
-Connection=ethernet
-IP=static
-Address=('10.0.2.15/24')
-Gateway='10.0.2.2'
-DNS=('114.114.114.114')
-DELIM
+#cat > /etc/netctl/eth0 <<DELIM
+#Description='A basic static ethernet connection'
+#Interface=eth0
+#Connection=ethernet
+#IP=static
+#Address=('10.0.2.15/24')
+#Gateway='10.0.2.2'
+#DNS=('8.8.8.8')
+#DELIM
 # workaround for eth0 renaming
-ln -s /dev/null /etc/udev/rules.d/80-net-setup-link.rules
+#ln -s /dev/null /etc/udev/rules.d/80-net-setup-link.rules
  
 # locale
 echo LANG=$ARCH_LOCALE > /etc/locale.conf
