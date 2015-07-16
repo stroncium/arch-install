@@ -10,8 +10,8 @@ EOF
 alsactl store
 #speaker-test -c2
 
-cp /usr/lib/systemd/system/getty@.service /etc/systemd/system/autologin@.service
-sed -i -e "/ExecStart/s/%I/-a $ARCH_USER %I/" /etc/systemd/system/autologin@.service
+#cp /usr/lib/systemd/system/getty@.service /etc/systemd/system/autologin@.service
+#sed -i -e "/ExecStart/s/%I/-a $ARCH_USER %I/" /etc/systemd/system/autologin@.service
 systemctl daemon-reload
 systemctl disable getty@tty1
 systemctl enable autologin@tty1
