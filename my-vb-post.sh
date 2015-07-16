@@ -1,8 +1,5 @@
 #!/bin/sh
-WM_PACKAGES=ttf-dejavu lxde upower
-MISC_PACKAGES=alsa-utils yajl
-VB_PACKAGES=virtualbox-guest-utils virtualbox-guest-modules
-sudo pacman -S  $VB_PACKAGES $WM_PACKAGES $MISC_PACKAGES
+sudo pacman -S  ttf-dejavu lxde upower alsa-utils yajl virtualbox-guest-utils virtualbox-guest-modules
 
 amixer -s<<EOF
   sset Master unmute
