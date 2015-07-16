@@ -1,4 +1,9 @@
 #!/bin/sh
+WM_PACKAGES=ttf-dejavu lxde upower
+MISC_PACKAGES=alsa-utils yajl
+VB_PACKAGES=virtualbox-guest-utils virtualbox-guest-modules
+sudo pacman -S  $VB_PACKAGES $WM_PACKAGES $MISC_PACKAGES
+
 amixer -s<<EOF
   sset Master unmute
   sset Master 100%
@@ -27,15 +32,15 @@ cd builds
 wget https://aur.archlinux.org/packages/pa/package-query/package-query.tar.gz
 tar -xf package-query.tar.gz
 cd package-query
-makepkg --asroot
-yes | pacman -U package-query-*.pkg.tar.*
+makepkg
+yes | sudo pacman -U package-query-*.pkg.tar.*
 cd ..
 
 wget https://aur.archlinux.org/packages/ya/yaourt/yaourt.tar.gz
 tar -xf yaourt.tar.gz
 cd yaourt
-makepkg --asroot
-yes | pacman -U yaourt-*.pkg.tar.*
+makepkg
+yes | sudo pacman -U yaourt-*.pkg.tar.*
 cd ..
 
 cd ..
