@@ -19,8 +19,8 @@ sgdisk -o \
 /dev/sda
  
 STEP FORMATTING
-mkfs.ext4 -L boot /dev/sda1
-mkfs.ext4 -L root /dev/sda3
+yes | mkfs.ext4 -L boot /dev/sda1
+yes | mkfs.ext4 -L root /dev/sda3
 
 STEP MOUNTING 
 mount /dev/sda3 $ARCH_ROOT
